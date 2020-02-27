@@ -40,6 +40,11 @@ public class HeroServiceImpl implements HeroService {
     }
 
     @Override
+    public Hero getOne(Long id) {
+        return repository.getOne(id);
+    }
+
+    @Override
     public Hero fight(Hero hero, Monster monster) {
         while (monster.getHitPoint() > 0){
             doStep(hero , monster);
@@ -59,6 +64,11 @@ public class HeroServiceImpl implements HeroService {
         save(hero);
         monsterService.save(monster);
 
+    }
+
+    @Override
+    public List<Hero> getAllByUserId(Long userId) {
+        return repository.getAllByUserId(userId);
     }
 
     private void addToHeroHimClassBonus(Hero hero){

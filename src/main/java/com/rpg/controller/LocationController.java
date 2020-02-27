@@ -6,9 +6,8 @@ import com.rpg.dto.LocationDto;
 import com.rpg.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class LocationController {
@@ -36,6 +35,12 @@ public class LocationController {
     @ResponseBody
     public String getLocationByMonster(@PathVariable(name = "id") Long id){
         return new Gson().toJson(new LocationDto( locationService.getLocationByMonsterId(id)));
+    }
+
+    @PostMapping("/getLocationByHeroId")
+    public String getLocationByHeroId (@RequestParam(name = "heroId") Long heroId , Model model){
+        model.addAttribute("locations" , locationService.getLocationForHero(heroId));
+        return "locationChoose";
     }
 
 

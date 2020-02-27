@@ -40,6 +40,8 @@
                     </div>
                 </div>
             </form:form>
+            <a href="/registration"> registration</a>
+
         </div>
     </div>
 </div>

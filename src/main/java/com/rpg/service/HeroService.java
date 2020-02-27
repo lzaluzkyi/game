@@ -13,9 +13,13 @@ public interface HeroService {
 
     List<Hero> getAll();
 
+    Hero getOne(Long id);
+
     Hero fight(Hero hero , Monster monster);
 
     void doStep (Hero hero , Monster monster);
+
+    List<Hero> getAllByUserId(Long userId);
 
 
 }

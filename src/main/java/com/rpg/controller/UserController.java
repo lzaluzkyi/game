@@ -4,16 +4,21 @@ import com.rpg.dto.UserDto;
 import com.rpg.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+
+    @ModelAttribute("user")
+    public UserDto getModel(){
+        return new UserDto();
+    }
+
 
     @GetMapping("/login")
     public String login(){
@@ -26,9 +31,9 @@ public class UserController {
         return "registration";
     }
     @PostMapping("/registration")
-    public String registration(@RequestParam(name = "login") String login ,
-                               @RequestParam(name = "password")String password){
-        userService.registration(new UserDto(login , password));
+    public String registration(@ModelAttribute("user") UserDto userDto , BindingResult bindingResult){
+        if (bindingResult.hasErrors())return "registration";
+        userService.registration(userDto);
         return "redirect:/login";
     }
 

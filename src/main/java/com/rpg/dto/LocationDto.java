@@ -14,7 +14,21 @@ public class LocationDto {
 
     private String name;
 
+    private boolean passedByHero;
+
     private List<MonsterDto> monsters = new ArrayList<>();
+
+    public LocationDto(Location location , boolean passedByHero) {
+        this.id = location.getId();
+        this.name = location.getName();
+        this.passedByHero = passedByHero;
+        if (location.getMonsters() != null){
+            for (Monster monster : location.getMonsters()) {
+                this.monsters.add(new MonsterDto(monster));
+            }
+        }
+    }
+
 
     public LocationDto(Location location) {
         this.id = location.getId();
@@ -25,4 +39,6 @@ public class LocationDto {
             }
         }
     }
+
+
 }

@@ -18,4 +18,7 @@ public class Location {
     @OneToMany(mappedBy = "location")
     private List<Monster> monsters;
 
+    @ManyToMany
+    private List<Hero> passedBy;
+
 }
