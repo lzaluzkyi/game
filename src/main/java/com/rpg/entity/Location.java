@@ -15,10 +15,18 @@ public class Location {
 
     private String name;
 
-    @OneToMany(mappedBy = "location")
+    @ManyToMany(mappedBy = "location")
     private List<Monster> monsters;
 
     @ManyToMany
     private List<Hero> passedBy;
 
+    private String photoUrl;
+
+    public Location() {
+    }
+
+    public Location(String name) {
+        this.name = name;
+    }
 }

@@ -9,4 +9,6 @@ public interface LocationRepository extends JpaRepository<Location , Long> {
 
 //    Location findByMonstersId(Monster monster);
 
+    Integer countByName(String name);
+
 }

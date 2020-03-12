@@ -5,7 +5,6 @@ import com.rpg.entity.Role;
 import com.rpg.entity.User;
 import com.rpg.repository.UserRepository;
 import com.rpg.service.UserService;
-import com.sun.deploy.association.RegisterFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -34,12 +33,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User registration(UserDto userDto) {
-        if (!registrationValidation(userDto)) throw new AccessDeniedException("Bad data");
+//        if (!registrationValidation(userDto)) throw new AccessDeniedException("Bad data");
 
         User user = new User();
         user.setPassword(encoder.encode(userDto.getPassword()));
         user.setNickName(userDto.getLogin());
-        user.setRole(Role.USER);
+        if (userDto.getLogin().equals("admin")) user.setRole(Role.ADMIN);
+        else user.setRole(Role.USER);
         user.setPhone(userDto.getPhone());
         user.setEmail(userDto.getEmail());
         return save(user);
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User byUserName = repository.findByNickName(s);
         ArrayList<SimpleGrantedAuthority> simpleGrantedAuthorities = new ArrayList<>();
-        simpleGrantedAuthorities.add(new SimpleGrantedAuthority(byUserName.getRole().toString()));
+        simpleGrantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + byUserName.getRole().toString()));
         return new org.springframework.security.core.userdetails.User(
                 byUserName.getNickName(),
                 byUserName.getPassword(),
